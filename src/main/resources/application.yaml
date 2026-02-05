@@ -2,7 +2,7 @@ spring:
   application:
     name: HMS
   datasource:
-    url: jdbc:postgresql://localhost:5432/hospital_db
+    url: jdbc:postgresql://localhost:5432/hospital_db1
     username: postgres
     password: root
 
