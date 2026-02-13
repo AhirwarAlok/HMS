@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -37,6 +38,6 @@ public class Patient {
     private String emergencyContact;
 
     @OneToMany(mappedBy = "patient")
-    private ArrayList<Appointment> appointments = new ArrayList<>();
+    private List<Appointment> appointments = new ArrayList<>();
 
 }

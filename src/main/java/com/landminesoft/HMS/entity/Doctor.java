@@ -2,9 +2,10 @@ package com.landminesoft.HMS.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.mapping.List;
+
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -20,7 +21,7 @@ public class Doctor {
     private boolean available = true;
 
     @OneToMany(mappedBy = "doctor")
-    private ArrayList<Appointment> appointments = new ArrayList<>();
+    private List<Appointment> appointments =  new ArrayList<>();;
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false, unique = true)
