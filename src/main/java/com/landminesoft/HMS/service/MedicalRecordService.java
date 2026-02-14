@@ -5,6 +5,8 @@ import com.landminesoft.HMS.dto.MedicalRecordResponse;
 import com.landminesoft.HMS.entity.Appointment;
 import com.landminesoft.HMS.entity.AppointmentStatus;
 import com.landminesoft.HMS.entity.MedicalRecord;
+import com.landminesoft.HMS.exception.ConflictException;
+import com.landminesoft.HMS.exception.ResourceNotFoundException;
 import com.landminesoft.HMS.repository.AppointmentRepository;
 import com.landminesoft.HMS.repository.MedicalRecordRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,16 +25,16 @@ public class MedicalRecordService {
     @Transactional
     public MedicalRecordResponse createMedicalRecord(MedicalRecordRequest request) {
         Appointment appointment = appointmentRepository.findById(request.getAppointmentId())
-                .orElseThrow(() -> new RuntimeException("Appointment not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Appointment not found"));
 
         if (appointment.getStatus() != AppointmentStatus.SCHEDULED) {
-            throw new RuntimeException(
+            throw new ConflictException(
                     "Medical record can only be created for scheduled appointments");
         }
         boolean exists = medicalRecordRepository
                 .existsByAppointment_Id(request.getAppointmentId());
         if (exists) {
-            throw new RuntimeException("Medical record already exists for this appointment");
+            throw new ConflictException("Medical record already exists for this appointment");
         }
 
         MedicalRecord record = new MedicalRecord();

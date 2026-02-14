@@ -3,6 +3,9 @@ package com.landminesoft.HMS.service;
 import com.landminesoft.HMS.dto.AppointmentResponse;
 import com.landminesoft.HMS.entity.Appointment;
 import com.landminesoft.HMS.entity.AppointmentStatus;
+import com.landminesoft.HMS.exception.BadRequestException;
+import com.landminesoft.HMS.exception.ConflictException;
+import com.landminesoft.HMS.exception.ResourceNotFoundException;
 import com.landminesoft.HMS.repository.AppointmentRepository;
 import com.landminesoft.HMS.repository.DoctorRepository;
 import com.landminesoft.HMS.repository.PatientRepository;
@@ -37,16 +40,16 @@ public class AppointmentService {
                         AppointmentStatus.SCHEDULED);
 
         if(isSlotBooked){
-            throw new RuntimeException("Appointment already exists for this Doctor and Slot");
+            throw new ConflictException("Appointment already exists for this Doctor and Slot");
         }
         Appointment appointment = new Appointment();
         appointment.setDoctor(
                 doctorRepository.findById(doctorId)
-                        .orElseThrow(()-> new RuntimeException("Doctor not found"))
+                        .orElseThrow(()-> new ResourceNotFoundException("Doctor not found"))
         );
         appointment.setPatient(
                 patientRepository.findById(patientId)
-                        .orElseThrow( ()-> new RuntimeException("Patient not found"))
+                        .orElseThrow( ()-> new ResourceNotFoundException("Patient not found"))
         );
         appointment.setAppointmentDate(date);
         appointment.setAppointmentTime(time);
@@ -72,13 +75,13 @@ public class AppointmentService {
     @Transactional
     public AppointmentResponse cancelAppointment(Long appointmentId) {
         Appointment appointment = appointmentRepository.findById(appointmentId)
-                .orElseThrow(() -> new RuntimeException("Appointment not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Appointment not found"));
         LocalDateTime appointmentDateTime = LocalDateTime.of(
                 appointment.getAppointmentDate(),
                 appointment.getAppointmentTime()
         );
         if (appointmentDateTime.isBefore(LocalDateTime.now().plusHours(24))) {
-            throw new RuntimeException("Cannot cancel within 24 hours of appointment time");
+            throw new BadRequestException("Cannot cancel within 24 hours of appointment time");
         }
         appointment.setStatus(AppointmentStatus.CANCELLED);
         return mapToResponse(appointment);
