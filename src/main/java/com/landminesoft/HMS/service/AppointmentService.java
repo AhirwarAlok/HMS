@@ -87,6 +87,12 @@ public class AppointmentService {
         return mapToResponse(appointment);
     }
 
+    public Long getAppointmentCount() {
+        return  appointmentRepository.count();
+    }
+
+
+
     private AppointmentResponse mapToResponse(Appointment appointment) {
         return AppointmentResponse.builder()
                 .id(appointment.getId())
