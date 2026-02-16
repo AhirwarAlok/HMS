@@ -3,6 +3,7 @@ package com.landminesoft.HMS.controller;
 import com.landminesoft.HMS.dto.MedicalRecordRequest;
 import com.landminesoft.HMS.dto.MedicalRecordResponse;
 import com.landminesoft.HMS.service.MedicalRecordService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class MedicalRecordController {
     private final MedicalRecordService medicalRecordService;
 
     @PostMapping
-    public ResponseEntity<MedicalRecordResponse> createMedicalRecord(
+    public ResponseEntity<MedicalRecordResponse> createMedicalRecord( @Valid
             @RequestBody MedicalRecordRequest request) {
 
         MedicalRecordResponse response = medicalRecordService.createMedicalRecord(request);
@@ -26,7 +27,7 @@ public class MedicalRecordController {
     }
 
     @GetMapping("/patient/{patientId}")
-    public ResponseEntity<List<MedicalRecordResponse>> getRecordsByPatient(
+    public ResponseEntity<List<MedicalRecordResponse>> getRecordsByPatient( @Valid
             @PathVariable Long patientId) {
 
         return ResponseEntity.ok(
