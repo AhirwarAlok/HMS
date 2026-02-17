@@ -38,6 +38,19 @@ A comprehensive Spring Boot application for managing hospital operations, includ
 *   **Payment**: Linked One-to-One with an `Appointment`. It ensures that a specific appointment is paid for. It also references Doctor and Patient for easier revenue calculation.
 *   **MedicalRecord**: Linked One-to-One with an `Appointment`. This ensures that a medical record is strictly tied to a specific visit/consultation.
 
+## Feature Checklist
+
+- [x] **User Authentication**: Secure Login & Registration with JWT.
+- [x] **Role-Based Access Control**: Granular permissions for Admin, Doctor, and Patient.
+- [x] **Appointment Scheduling**: Conflict-free booking system with validation.
+- [x] **Medical Records**: Digital storage for diagnosis, prescriptions, and attachments.
+- [x] **Billing System**: Integrated payment tracking and status updates.
+- [x] **Admin Dashboard**: Real-time statistics on doctors, patients, and revenue.
+- [x] **Revenue Reporting**: Date-range based financial reports.
+- [x] **Doctor Availability**: Management of doctor profiles and specializations.
+- [x] **API Documentation**: Integrated Swagger UI for endpoint testing.
+- [x] **Exception Handling**: Global error handling with standardized responses.
+
 ## All API Endpoints
 
 ### 1. Authentication (`/hms/auth`)
@@ -76,10 +89,10 @@ A comprehensive Spring Boot application for managing hospital operations, includ
 | GET | `/patient/{id}` | Get medical history for a patient. |
 
 ### 5. Payments (`/hms/payments`)
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/` | Create payment for completed appointment. |
-| PATCH | `/{id}/status` | Update status (e.g., `?status=PAID`). |
+| Method | Endpoint       | Description                               |
+|--------|----------------|-------------------------------------------|
+| POST   | `/`            | Create payment for completed appointment. |
+| PATCH  | `/{id}/status` | Update status (e.g., `?status=PAID`).     |
 
 
 ## Deploy Instructions
