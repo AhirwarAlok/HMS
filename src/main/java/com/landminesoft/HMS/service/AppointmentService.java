@@ -60,12 +60,18 @@ public class AppointmentService {
     }
 
     public List<AppointmentResponse> getAppointmentsByPatient(Long patientId){
+        if(!patientRepository.existsById(patientId)){
+            throw new ResourceNotFoundException("Patient not found");
+        }
         return appointmentRepository.findByPatient_Id(patientId)
                 .stream()
                 .map(this::mapToResponse)
                 .toList();
     }
     public List<AppointmentResponse> getAppointmentsByDoctor(Long doctorId) {
+        if (!doctorRepository.existsById(doctorId)) {
+            throw new ResourceNotFoundException("Doctor not found");
+        }
         return appointmentRepository.findByDoctor_Id(doctorId)
                 .stream()
                 .map(this::mapToResponse)

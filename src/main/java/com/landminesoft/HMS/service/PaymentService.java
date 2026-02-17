@@ -35,7 +35,7 @@ public class PaymentService {
                 .orElseThrow(() -> new ResourceNotFoundException("Appointment not found"));
 
         if (appointment.getStatus() != AppointmentStatus.COMPLETED) {
-            throw new BadRequestException("Payment allowed only after appointment completion");
+            throw new ConflictException("Payment allowed only after appointment completion");
         }
 
         Optional<Payment> existing = paymentRepository.findByAppointment_Id(request.getAppointmentId());
