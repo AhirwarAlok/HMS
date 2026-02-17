@@ -29,7 +29,7 @@ public class PaymentService {
     private final AppointmentRepository appointmentRepository;
 
     @Transactional
-    public PaymentResponse makePayment(PaymentRequest request) {
+    public PaymentResponse createPayment(PaymentRequest request) {
 
         Appointment appointment = appointmentRepository.findById(request.getAppointmentId())
                 .orElseThrow(() -> new ResourceNotFoundException("Appointment not found"));
